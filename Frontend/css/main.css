@@ -133,9 +133,9 @@ nav ul li a:hover {
     background-color: #555;
 }
 
-/* Hero Section */
+Hero Section
 .hero {
-    background-image: url('hero-bg.jpg');
+    /* background-image: url('hero-bg.jpg'); */
     background-size: cover;
     background-position: center;
     text-align: center;
@@ -382,4 +382,7 @@ footer {
     color: white;
     text-align: center;
     padding: 1.5rem 0;
+}
+h3{
+    color: black;
 }
