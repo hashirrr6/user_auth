@@ -5,9 +5,9 @@ import userSchema from "../models/user.models.js"
 import bcrypt from "bcrypt"
 
 export async function adduser(req,res) {
-    const{username,email,password,cpassword}=req.body
+    const{username,email,password,cpassword,profile}=req.body
     console.log(username,email,password,cpassword);
-    if(!(username&&email&&password&&cpassword))
+    if(!(username&&email&&password&&cpassword&&profile))
         return res.status(404).send({msg:"feilds are empty"});
     if(password!=cpassword)
         return res.status(404).send({msg:"password not match"});
@@ -19,7 +19,7 @@ console.log(hpasssword);
 
 
 
-await userSchema.create({username,email,password:hpasssword}).then(()=>{
+await userSchema.create({username,email,password:hpasssword,profile}).then(()=>{
     return res.status(201).send({msg:"succesfully created"});
 
 }).catch((error)=>{
@@ -57,7 +57,7 @@ export async function home(req,res) {
         
         const _id=req.user.userID;
         const user=await userSchema.findOne({_id});
-        res.status(200).send({username:user.username})
+        res.status(200).send({username:user.username,profile:user.profile})
         
         
     } catch (error) {

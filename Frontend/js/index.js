@@ -24,11 +24,14 @@ async function getHome() {
       
         if (res.status === 200) {
             const data = await res.json();
-            const { username } = data;  
+            const { username,profile } = data;
+            console.log(username,profile);
+              
 
             
             document.getElementById("usname").textContent = `Hello, ${username}..`;
-            console.log("Logged in as:", username);
+            // console.log("Logged in as:", username);
+            document.getElementById("profile").src=profile
         } else {
             
             const { msg } = await res.json();

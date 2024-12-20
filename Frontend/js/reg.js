@@ -1,4 +1,13 @@
 let API="http://localhost:3000";
+let profile;
+document.getElementById("file").addEventListener('change',async(e)=>{
+    console.log(e.target.files[0]);
+    profile=await convertBase64(e.target.files[0])
+    console.log(profile);
+    document.getElementById("profile").src=profile
+    
+    
+})
 
 document.addEventListener("DOMContentLoaded", () => {
   
@@ -22,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const res= await fetch(API+"/api/adduser",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
-                body:JSON.stringify({username,email,password,cpassword})
+                body:JSON.stringify({username,email,password,cpassword,profile})
             })
             if(res.status==201){
                 const {msg}=await res.json();
@@ -43,3 +52,16 @@ document.addEventListener("DOMContentLoaded", () => {
         
     });
 });
+
+function convertBase64(file){
+    return new Promise((resolve,reject)=>{
+        const fileReader=new fileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload=()=>{
+            resolve(fileReader.result)
+        }
+        fileReader.onerror=(error)=>{
+            reject(error)
+        }
+    })
+}
