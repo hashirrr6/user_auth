@@ -4,6 +4,16 @@ const { sign } = pkg;
 import userSchema from "../models/user.models.js"
 import bcrypt from "bcrypt"
 
+import nodemailer from "nodemailer"
+const transporter=nodemailer.createTransport({
+    Host:"sandbox.smtp.mailtrap.io",
+    Port:2525,
+    secure:false,
+    auth:{
+User:"a83daa61120ae4",
+pass:"bce81eb67ff8ca",},
+})
+
 export async function adduser(req,res) {
     const{username,email,password,cpassword,profile}=req.body
     console.log(username,email,password,cpassword);
@@ -63,5 +73,25 @@ export async function home(req,res) {
     } catch (error) {
         res.status(400).send({error})
     }
+    
+}
+export async function forgetPassword(req,res) {
+    console.log(req.body);
+
+    try{
+        const info=await WebTransportError.sendMail({
+            from:'kaves92582@cctoolz.com',
+            to:req.body.email,
+            subject:"verify",
+            text:"verify your email",
+            html:"<a href='http://localhost:3000/pages/forgetpassword.html'><button>verify</button></a>",
+        });
+        console.log("Message sent:%s",info.messageId);
+        res.status(200).send({msg:"Check Your email"})
+        // message sent:
+    }catch(error){
+        res.status(400).send(error)
+    }
+    
     
 }
